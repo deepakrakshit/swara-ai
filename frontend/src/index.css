@@ -1,0 +1,867 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    background-color: #161619;
+    color: #f3f3f5;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  /* Code font */
+  pre, code, kbd, samp {
+    font-family: ui-monospace, SFMono-Regular, "SF Pro Mono", "JetBrains Mono", Menlo, Monaco, Consolas, monospace;
+  }
+
+  /* Custom minimalist dark scrollbar */
+  ::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 9999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.28);
+  }
+}
+
+/* 1. Message Bubble Elastic Spring Animation */
+@keyframes messageSpringUp {
+  0% {
+    opacity: 0;
+    transform: translateY(28px) scale(0.94);
+  }
+  65% {
+    opacity: 1;
+    transform: translateY(-3px) scale(1.015);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-message-spring {
+  animation: messageSpringUp 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.25) forwards;
+}
+
+/* Typing Cursor Animation */
+@keyframes typingCursorBlink {
+  0%, 100% {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+  50% {
+    opacity: 0.15;
+    transform: scaleY(0.92);
+  }
+}
+
+.animate-typing-cursor {
+  animation: typingCursorBlink 0.75s ease-in-out infinite;
+}
+
+/* 2. 4-Point Star Icon Drop-In Animation */
+@keyframes starDropIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-16px) scale(0.5) rotate(-15deg);
+  }
+  70% {
+    opacity: 1;
+    transform: translateY(2px) scale(1.1) rotate(4deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotate(0deg);
+  }
+}
+
+.animate-star-drop {
+  animation: starDropIn 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.25) forwards;
+}
+
+/* 3. Horizontal Multi-Color Shimmer Wave (Blue, Violet, Coral) */
+@keyframes shimmerWavePulse {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.shimmer-wave-bar {
+  background: linear-gradient(
+    90deg,
+    rgba(74, 158, 255, 0.04) 0%,
+    rgba(74, 158, 255, 0.35) 25%,
+    rgba(157, 114, 255, 0.6) 50%,
+    rgba(244, 63, 94, 0.45) 75%,
+    rgba(74, 158, 255, 0.04) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmerWavePulse 2s linear infinite;
+}
+
+.shimmer-wave-text {
+  background: linear-gradient(
+    90deg,
+    #4a9eff 0%,
+    #9d72ff 35%,
+    #f43f5e 65%,
+    #4a9eff 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmerWavePulse 2.4s linear infinite;
+}
+
+/* 3B. Gemini Sovereign Star Respiration ("Mind Motion") */
+@keyframes geminiStarBreathe {
+  0%, 100% {
+    transform: scale(1) translateY(0) rotate(0deg);
+    filter: drop-shadow(0 0 16px rgba(157, 114, 255, 0.45));
+  }
+  33% {
+    transform: scale(1.08) translateY(-4px) rotate(3deg);
+    filter: drop-shadow(0 0 26px rgba(74, 158, 255, 0.65)) drop-shadow(0 0 45px rgba(157, 114, 255, 0.35));
+  }
+  66% {
+    transform: scale(0.96) translateY(2px) rotate(-2deg);
+    filter: drop-shadow(0 0 20px rgba(244, 63, 94, 0.5));
+  }
+}
+
+.animate-gemini-breathe {
+  animation: geminiStarBreathe 3.4s ease-in-out infinite;
+}
+
+/* Gemini Satellite Micro-Star Orbit */
+@keyframes geminiSatelliteOrbit {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.85;
+  }
+  50% {
+    transform: translate(-1.5px, -2px) scale(1.15);
+    opacity: 1;
+    filter: drop-shadow(0 0 8px rgba(244, 63, 94, 0.7));
+  }
+}
+
+.animate-gemini-satellite {
+  animation: geminiSatelliteOrbit 2.6s ease-in-out infinite;
+}
+
+/* Gemini Chromatic Aurora Bloom (Volumetric Halo) */
+@keyframes geminiAuroraBloom {
+  0%, 100% {
+    transform: scale(0.94);
+    opacity: 0.38;
+  }
+  50% {
+    transform: scale(1.18);
+    opacity: 0.7;
+  }
+}
+
+.animate-gemini-aurora {
+  animation: geminiAuroraBloom 3.8s ease-in-out infinite;
+}
+
+/* Gemini Smooth Curtain Exit */
+@keyframes geminiCurtainExit {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.05);
+    filter: blur(8px);
+    pointer-events: none;
+  }
+}
+
+.animate-gemini-exit {
+  animation: geminiCurtainExit 0.48s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* 4. Suggestion Collapse (Fade out & slide upward off-screen) */
+@keyframes collapseSlideUp {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-28px);
+    pointer-events: none;
+  }
+}
+
+.animate-collapse-up {
+  animation: collapseSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* 5. Typing Cursor Animation */
+@keyframes cursorBlink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.1;
+  }
+}
+
+.animate-typing-cursor {
+  animation: cursorBlink 0.8s ease-in-out infinite;
+}
+
+/* Neural Expressive Gradient Text */
+.neural-gradient-text {
+  background: linear-gradient(90deg, #4a9eff, #9d72ff, #f43f5e, #4a9eff);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: neuralWave 4s ease infinite;
+}
+
+/* Glowing Ambient Aura & Glass Surfaces */
+.ambient-glow-ring {
+  box-shadow: 0 0 25px -3px rgba(157, 114, 255, 0.25), 0 0 10px -2px rgba(74, 158, 255, 0.2);
+}
+
+.ambient-glow-soft {
+  box-shadow: 0 0 45px -10px rgba(139, 92, 246, 0.18);
+}
+
+/* Precision Glassmorphism & Rim Lighting */
+.glass-surface {
+  background: rgba(28, 28, 32, 0.78);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.08), 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+}
+
+.glass-panel {
+  background: rgba(24, 24, 27, 0.88);
+  backdrop-filter: blur(24px) saturate(190%);
+  -webkit-backdrop-filter: blur(24px) saturate(190%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.07);
+}
+
+.glass-card {
+  background: rgba(39, 39, 44, 0.65);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.06), 0 4px 16px -2px rgba(0, 0, 0, 0.35);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card:hover {
+  background: rgba(46, 46, 52, 0.85);
+  border-color: rgba(255, 255, 255, 0.16);
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.12), 0 8px 24px -4px rgba(0, 0, 0, 0.45);
+  transform: translateY(-1px);
+}
+
+.rim-highlight {
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Floating Capsule Shadow & Focus Lighting */
+.capsule-shadow {
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.12), 0 12px 36px -10px rgba(0, 0, 0, 0.65), 0 4px 12px -2px rgba(0, 0, 0, 0.45);
+}
+
+.capsule-shadow:focus-within {
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.2), 0 16px 48px -8px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(139, 92, 246, 0.4), 0 0 24px -4px rgba(139, 92, 246, 0.25);
+}
+
+/* Expandable Thought Container */
+.thought-stream-border {
+  border-left: 2px solid rgba(255, 255, 255, 0.18);
+}
+
+/* Markdown typography */
+.prose-chat p {
+  margin-bottom: 0.9rem;
+  line-height: 1.75;
+}
+.prose-chat p:last-child {
+  margin-bottom: 0;
+}
+.prose-chat ul, .prose-chat ol {
+  margin-top: 0.5rem;
+  margin-bottom: 0.9rem;
+}
+.prose-chat li {
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+  line-height: 1.65;
+}
+
+/* ==========================================================================
+   THEME DEFINITIONS: 8 THEMES, HIGH CONTRAST, ACCENT COLORS & DENSITY
+   ========================================================================== */
+
+/* Accent Color Utilities */
+:root {
+  --accent-primary: #8b5cf6;
+  --accent-glow: rgba(139, 92, 246, 0.25);
+}
+
+.accent-bg {
+  background-color: var(--accent-primary) !important;
+}
+.accent-text {
+  color: var(--accent-primary) !important;
+}
+.accent-border {
+  border-color: var(--accent-primary) !important;
+}
+
+/* Base Prose and Composer utilities */
+.chat-prose-text {
+  color: #ececec;
+}
+
+.composer-gradient {
+  background: linear-gradient(to top, #18181b 0%, rgba(24, 24, 27, 0.96) 65%, transparent 100%);
+}
+
+/* 1. ENGINEERING DAYLIGHT PAPER (Claude Warm Ivory + Gemini M3 Tonal Palette) */
+html[data-theme="light"] {
+  --bg-canvas: #faf9f5;
+  --bg-surface: #f5f1ea;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f7f4ee;
+  --border-subtle: #e8e2d8;
+  --border-card: #e5dfd5;
+  --text-primary: #18181b;
+  --text-secondary: #57534e;
+  --text-muted: #78716c;
+}
+
+html[data-theme="light"] body {
+  background-color: #faf9f5 !important;
+  color: #18181b !important;
+}
+
+/* Gradients */
+html[data-theme="light"] .composer-gradient {
+  background: linear-gradient(to top, #faf9f5 0%, rgba(250, 249, 245, 0.96) 65%, transparent 100%) !important;
+}
+
+/* Viewports, Chat Stream & Canvas */
+html[data-theme="light"] .bg-workbench-bg,
+html[data-theme="light"] .bg-workbench-main,
+html[data-theme="light"] .bg-\[\#161619\],
+html[data-theme="light"] .bg-\[\#212121\] {
+  background-color: #faf9f5 !important;
+  color: #18181b !important;
+}
+
+/* Sidebars & Navigation Panes */
+html[data-theme="light"] aside,
+html[data-theme="light"] .bg-workbench-sidebar,
+html[data-theme="light"] .bg-\[\#131316\],
+html[data-theme="light"] .bg-\[\#171717\] {
+  background-color: #f5f1ea !important;
+  border-color: #e8e2d8 !important;
+  color: #18181b !important;
+}
+
+/* Header Bars */
+html[data-theme="light"] header,
+html[data-theme="light"] .bg-\[\#161619\]\/95,
+html[data-theme="light"] .bg-\[\#18181b\] {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  border-color: #e8e2d8 !important;
+  color: #18181b !important;
+}
+
+/* Primary Cards, Modals & Elevated Blocks */
+html[data-theme="light"] .glass-card,
+html[data-theme="light"] .glass-surface,
+html[data-theme="light"] .glass-panel,
+html[data-theme="light"] .bg-workbench-card,
+html[data-theme="light"] .bg-workbench-panel,
+html[data-theme="light"] .bg-\[\#222227\],
+html[data-theme="light"] .bg-\[\#232328\],
+html[data-theme="light"] .bg-\[\#232328\]\/70,
+html[data-theme="light"] .bg-\[\#27272a\],
+html[data-theme="light"] .bg-\[\#27272a\]\/60,
+html[data-theme="light"] .bg-\[\#2f2f2f\],
+html[data-theme="light"] .bg-\[\#28282e\],
+html[data-theme="light"] .bg-\[\#27272c\],
+html[data-theme="light"] .bg-\[\#25252b\],
+html[data-theme="light"] .bg-\[\#252528\],
+html[data-theme="light"] .bg-\[\#242428\],
+html[data-theme="light"] .bg-\[\#242429\],
+html[data-theme="light"] .bg-\[\#202024\],
+html[data-theme="light"] .bg-\[\#1c1c1f\],
+html[data-theme="light"] .bg-\[\#1e1e1e\],
+html[data-theme="light"] .bg-\[\#1e1e20\],
+html[data-theme="light"] .bg-\[\#1e1e22\],
+html[data-theme="light"] .bg-\[\#1e1e23\],
+html[data-theme="light"] .bg-\[\#1f1f22\],
+html[data-theme="light"] .bg-\[\#1f1f23\],
+html[data-theme="light"] .bg-\[\#202023\],
+html[data-theme="light"] .bg-\[\#212124\],
+html[data-theme="light"] .bg-\[\#242424\],
+html[data-theme="light"] .bg-\[\#252525\],
+html[data-theme="light"] .bg-\[\#25252a\],
+html[data-theme="light"] .bg-\[\#26262c\],
+html[data-theme="light"] .bg-\[\#2a2a2d\],
+html[data-theme="light"] .bg-\[\#1b1b1e\],
+html[data-theme="light"] .bg-\[\#2c2c30\],
+html[data-theme="light"] .bg-\[\#2d2d31\],
+html[data-theme="light"] .bg-\[\#2d2d35\],
+html[data-theme="light"] .bg-\[\#2e2e34\],
+html[data-theme="light"] .bg-\[\#2f2f35\],
+html[data-theme="light"] .bg-\[\#323236\],
+html[data-theme="light"] .bg-\[\#383838\],
+html[data-theme="light"] .bg-\[\#38383c\],
+html[data-theme="light"] .bg-\[\#232326\] {
+  background-color: #ffffff !important;
+  border-color: #e5dfd5 !important;
+  box-shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.03) !important;
+  color: #18181b !important;
+}
+
+/* Card & Item Hover States */
+html[data-theme="light"] .glass-card:hover,
+html[data-theme="light"] .hover\:bg-workbench-hover:hover,
+html[data-theme="light"] .hover\:bg-\[\#1a1a1e\]:hover,
+html[data-theme="light"] .hover\:bg-\[\#25252a\]:hover,
+html[data-theme="light"] .hover\:bg-\[\#27272a\]:hover,
+html[data-theme="light"] .hover\:bg-\[\#27272e\]:hover,
+html[data-theme="light"] .hover\:bg-\[\#28282c\]:hover,
+html[data-theme="light"] .hover\:bg-\[\#292930\]:hover,
+html[data-theme="light"] .hover\:bg-\[\#2a2a30\]:hover,
+html[data-theme="light"] .hover\:bg-\[\#2d2d31\]:hover,
+html[data-theme="light"] .hover\:bg-\[\#2e2e34\]:hover,
+html[data-theme="light"] .hover\:bg-\[\#2f2f2f\]:hover,
+html[data-theme="light"] .hover\:bg-\[\#2f2f35\]:hover,
+html[data-theme="light"] .hover\:bg-\[\#323236\]:hover,
+html[data-theme="light"] .hover\:bg-\[\#32323a\]:hover,
+html[data-theme="light"] .hover\:bg-\[\#383838\]:hover {
+  background-color: #f7f4ee !important;
+  border-color: #dcd5c9 !important;
+}
+
+/* Soft Secondary Pills & Chips */
+html[data-theme="light"] .bg-white\/\[0\.02\],
+html[data-theme="light"] .bg-white\/\[0\.03\],
+html[data-theme="light"] .bg-white\/\[0\.04\],
+html[data-theme="light"] .bg-white\/\[0\.05\],
+html[data-theme="light"] .bg-white\/\[0\.06\],
+html[data-theme="light"] .bg-white\/\[0\.08\] {
+  background-color: #ede7dc !important;
+  color: #44403c !important;
+  border-color: #e5dfd5 !important;
+}
+
+html[data-theme="light"] .hover\:bg-white\/\[0\.04\]:hover,
+html[data-theme="light"] .hover\:bg-white\/\[0\.06\]:hover,
+html[data-theme="light"] .hover\:bg-white\/\[0\.08\]:hover,
+html[data-theme="light"] .hover\:bg-white\/\[0\.1\]:hover,
+html[data-theme="light"] .hover\:bg-white\/\[0\.12\]:hover,
+html[data-theme="light"] .hover\:bg-white\/\[0\.16\]:hover {
+  background-color: #e4ddd1 !important;
+  color: #18181b !important;
+}
+
+/* Floating Composer Capsule */
+html[data-theme="light"] .capsule-shadow {
+  background-color: #ffffff !important;
+  border-color: #e0d9cf !important;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.06), 0 1px 4px rgba(0, 0, 0, 0.03) !important;
+}
+
+html[data-theme="light"] .capsule-shadow:focus-within {
+  background-color: #ffffff !important;
+  border-color: #2563eb !important;
+  box-shadow: 0 6px 24px -2px rgba(0, 0, 0, 0.08), 0 0 0 2px rgba(37, 99, 235, 0.25) !important;
+}
+
+/* User Message Card */
+html[data-theme="light"] .animate-message-spring > div {
+  background-color: #ffffff !important;
+  color: #18181b !important;
+  border-color: #e2dcd2 !important;
+  box-shadow: 0 3px 12px -2px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.03) !important;
+}
+
+html[data-theme="light"] .animate-message-spring p {
+  color: #18181b !important;
+}
+
+/* Assistant Message Stream & Reasoning */
+html[data-theme="light"] .chat-prose-text,
+html[data-theme="light"] .prose-chat,
+html[data-theme="light"] .prose-chat p,
+html[data-theme="light"] .prose-chat li,
+html[data-theme="light"] .prose-chat strong {
+  color: #18181b !important;
+}
+
+html[data-theme="light"] .prose-chat ul,
+html[data-theme="light"] .prose-chat ol {
+  color: #18181b !important;
+}
+
+html[data-theme="light"] .prose-chat li::marker {
+  color: #78716c !important;
+}
+
+/* Monospace code blocks & tool outputs: Kept high-contrast dark for optimal readability */
+html[data-theme="light"] pre,
+html[data-theme="light"] .bg-black\/50,
+html[data-theme="light"] .bg-black\/40,
+html[data-theme="light"] .bg-\[\#141416\],
+html[data-theme="light"] .bg-\[\#1e1e24\] {
+  background-color: #16161c !important;
+  color: #f1f5f9 !important;
+  border-color: #27272a !important;
+}
+
+html[data-theme="light"] pre code,
+html[data-theme="light"] pre span {
+  color: #f1f5f9;
+}
+
+/* Text Inputs & Placeholders */
+html[data-theme="light"] textarea,
+html[data-theme="light"] input:not([type="checkbox"]):not([type="radio"]) {
+  color: #18181b !important;
+}
+
+html[data-theme="light"] textarea::placeholder,
+html[data-theme="light"] input::placeholder {
+  color: #78716c !important;
+}
+
+/* Borders */
+html[data-theme="light"] .border-workbench-border,
+html[data-theme="light"] .border-workbench-borderLight,
+html[data-theme="light"] .border-white\/\[0\.04\],
+html[data-theme="light"] .border-white\/\[0\.05\],
+html[data-theme="light"] .border-white\/\[0\.06\],
+html[data-theme="light"] .border-white\/\[0\.08\],
+html[data-theme="light"] .border-white\/\[0\.1\],
+html[data-theme="light"] .border-white\/\[0\.12\],
+html[data-theme="light"] .border-white\/\[0\.14\],
+html[data-theme="light"] .border-white\/\[0\.15\],
+html[data-theme="light"] .border-white\/\[0\.2\] {
+  border-color: #e5dfd5 !important;
+}
+
+/* Text Colors */
+html[data-theme="light"] .text-workbench-text,
+html[data-theme="light"] .text-\[\#ececec\],
+html[data-theme="light"] .text-zinc-100,
+html[data-theme="light"] .text-zinc-200 {
+  color: #18181b !important;
+}
+
+html[data-theme="light"] .text-zinc-300 {
+  color: #292524 !important;
+}
+
+html[data-theme="light"] .text-workbench-muted,
+html[data-theme="light"] .text-zinc-400 {
+  color: #57534e !important;
+}
+
+html[data-theme="light"] .text-workbench-dimmed,
+html[data-theme="light"] .text-zinc-500 {
+  color: #78716c !important;
+}
+
+/* Headings and Titles */
+html[data-theme="light"] h1,
+html[data-theme="light"] h2,
+html[data-theme="light"] h3,
+html[data-theme="light"] h4,
+html[data-theme="light"] h5,
+html[data-theme="light"] h6,
+html[data-theme="light"] header button:not([class*="bg-purple"]):not([class*="bg-emerald"]):not([class*="bg-blue"]):not([style*="background"]),
+html[data-theme="light"] header .text-white {
+  color: #18181b !important;
+}
+
+/* Base text-white override: ensure white text becomes dark on light surfaces,
+   UNLESS inside code, inside action buttons with filled background colors, or inside colored badges */
+html[data-theme="light"] .text-white:not(pre):not(pre *):not(code):not(button[style*="background"]):not(button[style*="background"] *):not([style*="background"]):not([style*="background"] *):not([class*="bg-purple"]):not([class*="bg-purple"] *):not([class*="bg-emerald"]):not([class*="bg-emerald"] *):not([class*="bg-blue"]):not([class*="bg-blue"] *):not([class*="bg-rose"]):not([class*="bg-rose"] *):not([class*="bg-amber"]):not([class*="bg-amber"] *):not([class*="bg-zinc-900"]):not([class*="bg-zinc-900"] *):not([class*="bg-black"]):not([class*="bg-black"] *):not(.rounded-full.bg-white *) {
+  color: #18181b !important;
+}
+
+/* Explicitly protect text and icons inside buttons or elements with dynamic inline background colors */
+html[data-theme="light"] [style*="background"],
+html[data-theme="light"] button[style*="background"] {
+  color: #ffffff !important;
+}
+html[data-theme="light"] [style*="background"] svg,
+html[data-theme="light"] button[style*="background"] svg {
+  stroke: #ffffff !important;
+}
+
+/* Rich light mode semantic accents for contrast on paper/ivory */
+html[data-theme="light"] .text-emerald-400 {
+  color: #059669 !important;
+}
+html[data-theme="light"] .text-purple-400 {
+  color: #7c3aed !important;
+}
+html[data-theme="light"] .text-blue-400 {
+  color: #2563eb !important;
+}
+html[data-theme="light"] .text-amber-400 {
+  color: #d97706 !important;
+}
+html[data-theme="light"] .text-rose-400 {
+  color: #e11d48 !important;
+}
+html[data-theme="light"] .text-cyan-400 {
+  color: #0284c7 !important;
+}
+
+/* Preserve text color on circular action buttons (like Composer Send / Stop button) */
+html[data-theme="light"] button.rounded-full.bg-white {
+  background-color: #18181b !important;
+  color: #ffffff !important;
+}
+html[data-theme="light"] button.rounded-full.bg-white svg {
+  stroke: #ffffff !important;
+  fill: #ffffff !important;
+}
+
+/* Colored buttons and badges retain crisp white text */
+html[data-theme="light"] [class*="bg-purple-"]:not([class*="bg-purple-500/"]):not([class*="bg-purple-600/"]),
+html[data-theme="light"] [class*="bg-emerald-"]:not([class*="bg-emerald-500/"]):not([class*="bg-emerald-600/"]),
+html[data-theme="light"] [class*="bg-blue-"]:not([class*="bg-blue-500/"]):not([class*="bg-blue-600/"]),
+html[data-theme="light"] [class*="bg-rose-"]:not([class*="bg-rose-500/"]):not([class*="bg-rose-600/"]),
+html[data-theme="light"] [class*="bg-amber-"]:not([class*="bg-amber-500/"]):not([class*="bg-amber-600/"]),
+html[data-theme="light"] .bg-purple-600,
+html[data-theme="light"] .bg-purple-500,
+html[data-theme="light"] .bg-emerald-600,
+html[data-theme="light"] .bg-emerald-500,
+html[data-theme="light"] .bg-blue-600,
+html[data-theme="light"] .bg-rose-600 {
+  color: #ffffff !important;
+}
+
+/* Scrollbars */
+html[data-theme="light"] ::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15) !important;
+}
+html[data-theme="light"] ::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.28) !important;
+}
+
+/* 2. REFINERY NAVY THEME (MoPNG / Petrochemical Sovereign) */
+html[data-theme="navy"] .composer-gradient {
+  background: linear-gradient(to top, #070d1e 0%, rgba(7, 13, 30, 0.95) 70%, transparent 100%) !important;
+}
+html[data-theme="navy"] body {
+  background-color: #070d1e !important;
+  color: #e2e8f0 !important;
+}
+html[data-theme="navy"] .bg-\[\#171717\],
+html[data-theme="navy"] aside {
+  background-color: #050914 !important;
+}
+html[data-theme="navy"] .bg-\[\#212121\],
+html[data-theme="navy"] .bg-\[\#18181b\],
+html[data-theme="navy"] header {
+  background-color: #0b1428 !important;
+}
+html[data-theme="navy"] .bg-\[\#2f2f2f\],
+html[data-theme="navy"] .bg-\[\#27272a\],
+html[data-theme="navy"] .bg-\[\#212124\],
+html[data-theme="navy"] .bg-\[\#1c1c1f\],
+html[data-theme="navy"] .bg-\[\#1f1f22\] {
+  background-color: #101c3b !important;
+}
+html[data-theme="navy"] .border-white\/\[0\.08\],
+html[data-theme="navy"] .border-white\/\[0\.06\],
+html[data-theme="navy"] .border-white\/\[0\.1\] {
+  border-color: rgba(56, 189, 248, 0.15) !important;
+}
+
+/* 3. SCADA CYBER TERMINAL THEME (Tactical Emerald) */
+html[data-theme="terminal"] .composer-gradient {
+  background: linear-gradient(to top, #040806 0%, rgba(4, 8, 6, 0.95) 70%, transparent 100%) !important;
+}
+html[data-theme="terminal"] body {
+  background-color: #040806 !important;
+  color: #ecfdf5 !important;
+}
+html[data-theme="terminal"] .bg-\[\#171717\],
+html[data-theme="terminal"] aside {
+  background-color: #020504 !important;
+}
+html[data-theme="terminal"] .bg-\[\#212121\],
+html[data-theme="terminal"] .bg-\[\#18181b\],
+html[data-theme="terminal"] header {
+  background-color: #07100b !important;
+}
+html[data-theme="terminal"] .bg-\[\#2f2f2f\],
+html[data-theme="terminal"] .bg-\[\#27272a\],
+html[data-theme="terminal"] .bg-\[\#212124\],
+html[data-theme="terminal"] .bg-\[\#1c1c1f\],
+html[data-theme="terminal"] .bg-\[\#1f1f22\] {
+  background-color: #0d1e15 !important;
+}
+html[data-theme="terminal"] .border-white\/\[0\.08\],
+html[data-theme="terminal"] .border-white\/\[0\.06\],
+html[data-theme="terminal"] .border-white\/\[0\.1\] {
+  border-color: rgba(16, 185, 129, 0.22) !important;
+}
+
+/* 4. SUNSET AMBER THEME (Warm Industrial Copper & Charcoal) */
+html[data-theme="amber"] .composer-gradient {
+  background: linear-gradient(to top, #120e0a 0%, rgba(18, 14, 10, 0.95) 70%, transparent 100%) !important;
+}
+html[data-theme="amber"] body {
+  background-color: #120e0a !important;
+  color: #fef3c7 !important;
+}
+html[data-theme="amber"] .bg-\[\#171717\],
+html[data-theme="amber"] aside {
+  background-color: #0a0805 !important;
+}
+html[data-theme="amber"] .bg-\[\#212121\],
+html[data-theme="amber"] .bg-\[\#18181b\],
+html[data-theme="amber"] header {
+  background-color: #18120c !important;
+}
+html[data-theme="amber"] .bg-\[\#2f2f2f\],
+html[data-theme="amber"] .bg-\[\#27272a\],
+html[data-theme="amber"] .bg-\[\#212124\],
+html[data-theme="amber"] .bg-\[\#1c1c1f\],
+html[data-theme="amber"] .bg-\[\#1f1f22\] {
+  background-color: #241b12 !important;
+}
+html[data-theme="amber"] .border-white\/\[0\.08\],
+html[data-theme="amber"] .border-white\/\[0\.06\],
+html[data-theme="amber"] .border-white\/\[0\.1\] {
+  border-color: rgba(245, 158, 11, 0.2) !important;
+}
+
+/* 5. CRIMSON COMMAND THEME (Defense / Critical High Alert) */
+html[data-theme="crimson"] .composer-gradient {
+  background: linear-gradient(to top, #13080b 0%, rgba(19, 8, 11, 0.95) 70%, transparent 100%) !important;
+}
+html[data-theme="crimson"] body {
+  background-color: #13080b !important;
+  color: #ffe4e6 !important;
+}
+html[data-theme="crimson"] .bg-\[\#171717\],
+html[data-theme="crimson"] aside {
+  background-color: #0a0406 !important;
+}
+html[data-theme="crimson"] .bg-\[\#212121\],
+html[data-theme="crimson"] .bg-\[\#18181b\],
+html[data-theme="crimson"] header {
+  background-color: #1b0a10 !important;
+}
+html[data-theme="crimson"] .bg-\[\#2f2f2f\],
+html[data-theme="crimson"] .bg-\[\#27272a\],
+html[data-theme="crimson"] .bg-\[\#212124\],
+html[data-theme="crimson"] .bg-\[\#1c1c1f\],
+html[data-theme="crimson"] .bg-\[\#1f1f22\] {
+  background-color: #2b1118 !important;
+}
+html[data-theme="crimson"] .border-white\/\[0\.08\],
+html[data-theme="crimson"] .border-white\/\[0\.06\],
+html[data-theme="crimson"] .border-white\/\[0\.1\] {
+  border-color: rgba(244, 63, 94, 0.2) !important;
+}
+
+/* 6. NORDIC SLATE THEME (Cool Arctic & Frost) */
+html[data-theme="nordic"] .composer-gradient {
+  background: linear-gradient(to top, #0b1120 0%, rgba(11, 17, 32, 0.95) 70%, transparent 100%) !important;
+}
+html[data-theme="nordic"] body {
+  background-color: #0b1120 !important;
+  color: #f1f5f9 !important;
+}
+html[data-theme="nordic"] .bg-\[\#171717\],
+html[data-theme="nordic"] aside {
+  background-color: #070b16 !important;
+}
+html[data-theme="nordic"] .bg-\[\#212121\],
+html[data-theme="nordic"] .bg-\[\#18181b\],
+html[data-theme="nordic"] header {
+  background-color: #0f172a !important;
+}
+html[data-theme="nordic"] .bg-\[\#2f2f2f\],
+html[data-theme="nordic"] .bg-\[\#27272a\],
+html[data-theme="nordic"] .bg-\[\#212124\],
+html[data-theme="nordic"] .bg-\[\#1c1c1f\],
+html[data-theme="nordic"] .bg-\[\#1f1f22\] {
+  background-color: #1e293b !important;
+}
+html[data-theme="nordic"] .border-white\/\[0\.08\],
+html[data-theme="nordic"] .border-white\/\[0\.06\],
+html[data-theme="nordic"] .border-white\/\[0\.1\] {
+  border-color: rgba(148, 163, 184, 0.18) !important;
+}
+
+/* 7. FOREST SAGE THEME (Deep Botanical Pine & Moss) */
+html[data-theme="forest"] .composer-gradient {
+  background: linear-gradient(to top, #08120c 0%, rgba(8, 18, 12, 0.95) 70%, transparent 100%) !important;
+}
+html[data-theme="forest"] body {
+  background-color: #08120c !important;
+  color: #ecfdf5 !important;
+}
+html[data-theme="forest"] .bg-\[\#171717\],
+html[data-theme="forest"] aside {
+  background-color: #040a06 !important;
+}
+html[data-theme="forest"] .bg-\[\#212121\],
+html[data-theme="forest"] .bg-\[\#18181b\],
+html[data-theme="forest"] header {
+  background-color: #0b1c12 !important;
+}
+html[data-theme="forest"] .bg-\[\#2f2f2f\],
+html[data-theme="forest"] .bg-\[\#27272a\],
+html[data-theme="forest"] .bg-\[\#212124\],
+html[data-theme="forest"] .bg-\[\#1c1c1f\],
+html[data-theme="forest"] .bg-\[\#1f1f22\] {
+  background-color: #142e1f !important;
+}
+html[data-theme="forest"] .border-white\/\[0\.08\],
+html[data-theme="forest"] .border-white\/\[0\.06\],
+html[data-theme="forest"] .border-white\/\[0\.1\] {
+  border-color: rgba(52, 211, 153, 0.18) !important;
+}
+
+/* UI DENSITY MODES */
+html[data-density="compact"] {
+  font-size: 13px;
+}
+html[data-density="spacious"] {
+  font-size: 15px;
+}

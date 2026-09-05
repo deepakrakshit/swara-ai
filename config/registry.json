@@ -1,0 +1,42 @@
+{
+  "deep_brain": {
+    "base_url": "https://sims-pitch-dates-odds.trycloudflare.com/v1",
+    "model": "Qwen2.5-7B-Instruct",
+    "type": "openai_compatible",
+    "role": "Primary Reasoning (CEO)",
+    "sha256": "7f83b1657ff1fc53b92dc18148a1d65dfc2d4b1fa3d677284addd200126d9069",
+    "sovereign_flag": "AIRGAP-EXTERNAL-FLAG"
+  },
+  "fast_brain": {
+    "base_url": "https://capture-elevation-bidder-skills.trycloudflare.com/v1",
+    "model": "Qwen2.5-3B-Instruct",
+    "type": "openai_compatible",
+    "role": "Fast Judge / Router",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sovereign_flag": "AIRGAP-EXTERNAL-FLAG"
+  },
+  "coder": {
+    "base_url": "https://nuclear-breeding-busy-citizens.trycloudflare.com/v1",
+    "model": "google_gemma-3-12b-it-Q5_K_M",
+    "type": "openai_compatible",
+    "role": "Code & Calculation Specialist (Gemma 3 12B IT)",
+    "sha256": "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
+    "sovereign_flag": "AIRGAP-EXTERNAL-FLAG"
+  },
+  "vision": {
+    "base_url": "https://distinct-simply-preference-facilitate.trycloudflare.com/v1",
+    "model": "Qwen2.5-VL-7B-Instruct",
+    "type": "openai_compatible",
+    "role": "Vision & OCR Specialist",
+    "sha256": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce",
+    "sovereign_flag": "AIRGAP-EXTERNAL-FLAG"
+  },
+  "embedding": {
+    "base_url": "https://remain-flow-with-submission.trycloudflare.com/v1",
+    "model": "nomic-embed-text-v1.5",
+    "type": "openai_compatible",
+    "role": "Vector Embeddings (RAG)",
+    "sha256": "2c26b46b68ffc68ff99b453c1d30413413422d706483bfa0f98a5e886266e7ae",
+    "sovereign_flag": "AIRGAP-EXTERNAL-FLAG"
+  }
+}

@@ -1,0 +1,46 @@
+rules:
+  - id: ban-docker-socket-mount
+    patterns:
+      - pattern-either:
+          - pattern: |
+              volumes={..., '/var/run/docker.sock': ...}
+          - pattern: |
+              volumes=[..., '/var/run/docker.sock:...', ...]
+          - pattern: |
+              "-v /var/run/docker.sock:..."
+    message: "Docker socket mounting is prohibited inside sovereign execution sandboxes."
+    severity: ERROR
+    languages: [python, bash, yaml]
+
+  - id: enforce-sandbox-network-none
+    patterns:
+      - pattern: |
+          docker.containers.run(..., network_mode=$MODE, ...)
+      - pattern-not: |
+          docker.containers.run(..., network_mode="none", ...)
+    message: "Code sandbox containers must strictly enforce network_mode='none' for air-gap isolation."
+    severity: ERROR
+    languages: [python]
+
+  - id: enforce-no-new-privileges
+    patterns:
+      - pattern: |
+          docker.containers.run(...)
+      - pattern-not: |
+          docker.containers.run(..., security_opt=[..., "no-new-privileges", ...], ...)
+    message: "Code sandbox containers must enforce security_opt=['no-new-privileges']."
+    severity: ERROR
+    languages: [python]
+
+  - id: ban-external-cloud-endpoints
+    patterns:
+      - pattern-either:
+          - pattern: |
+              "https://api.openai.com/..."
+          - pattern: |
+              "https://api.anthropic.com/..."
+          - pattern: |
+              "https://api.cohere.ai/..."
+    message: "Direct commercial SaaS LLM API calls are banned in sovereign air-gapped deployments."
+    severity: ERROR
+    languages: [python, javascript, typescript]
