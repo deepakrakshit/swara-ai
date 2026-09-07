@@ -352,7 +352,8 @@ Checks performed:
 
 ## 10. Contributors & Acknowledgments
 
-- **Project Lead & Core Developer:** [abhinaveng04](https://github.com/abhinaveng04)
+- **Project Lead:** [Abhinav Gupta](https://github.com/abhinaveng04)
+- **Core Devs:** [Abhinav Gupta](https://github.com/abhinaveng04) & [Deepak Rakshit](https://github.com/deepakrakshit)
 - **Problem Statement:** SIH26117 — Smart India Hackathon
 - **Sponsoring Agency:** Mangalore Refinery and Petrochemicals Limited (MRPL) / Ministry of Petroleum and Natural Gas (MoPNG)
 - **Built With:** [LangGraph](https://github.com/langchain-ai/langgraph), [FastAPI](https://fastapi.tiangolo.com/), [llama.cpp](https://github.com/ggerganov/llama.cpp), [React 18](https://react.dev/), [Vite](https://vitejs.dev/), [Tailwind CSS](https://tailwindcss.com/).
