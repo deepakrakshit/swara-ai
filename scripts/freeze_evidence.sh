@@ -29,5 +29,5 @@ grep -Fq 'stream_sse("egress_blocked",'             src/test_egress.py
 echo "mandated strings PASS"
 
 echo "== markdown gate (both docs) =="
-python3 tools/markdown_gate.py PRD.md
-python3 tools/markdown_gate.py ARCHITECTURE.md
+python3 tools/markdown_gate.py PRD_v5.3_clean.md
+python3 tools/markdown_gate.py ARCHITECTURE_v5.3_clean.md
