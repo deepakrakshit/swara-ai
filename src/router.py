@@ -320,7 +320,7 @@ def detect_requested_formats(prompt: str) -> list[str]:
     fmts = []
 
     is_pdf = bool(re.search(r"\b(pdf|report\.pdf)\b", p_lower))
-    is_xlsx = bool(re.search(r"\b(excel|xlsx|spreadsheet|workbook|sheet|sheets|csv)\b", p_lower))
+    is_xlsx = bool(re.search(r"\b(excel|xlsx|spreadsheet|workbook|sheet|sheets|csv|trend|calc|calculations?)\b", p_lower))
     is_pptx = bool(re.search(r"\b(pptx|ppt|powerpoint|presentation|slides|pitch\s*deck|slide\s*deck|briefing\s*deck)\b", p_lower))
     is_docx = bool(re.search(r"\b(docx|doc|word|memorandum|memo)\b", p_lower))
 
@@ -342,10 +342,10 @@ def detect_requested_formats(prompt: str) -> list[str]:
         if "report" in p_lower:
             fmts = ["pdf"]
         elif "memo" in p_lower:
-            fmts = ["docx"]
+            fmts = ["docx", "xlsx"]
         elif "slide" in p_lower or "deck" in p_lower:
             fmts = ["pptx"]
-        elif "calc" in p_lower or "data" in p_lower:
+        elif "calc" in p_lower or "data" in p_lower or "trend" in p_lower:
             fmts = ["xlsx"]
         else:
             fmts = ["docx", "xlsx", "pdf", "pptx"]

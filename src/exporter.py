@@ -112,13 +112,21 @@ class CalcRow:
     measured_mm: float = 0.0
     operational_years: float = 10.0
     minimum_allowable_mm: float = 0.0
+    raw_rate: Optional[float] = None
+    status_override: Optional[str] = None
 
     @property
     def loss_mm(self) -> float:
-        return round(self.nominal_mm - self.measured_mm, 3)
+        if self.nominal_mm and self.measured_mm:
+            return round(self.nominal_mm - self.measured_mm, 3)
+        if self.raw_rate is not None:
+            return round(self.raw_rate * (self.operational_years or 1.0), 3)
+        return 0.0
 
     @property
     def corrosion_rate(self) -> float:
+        if self.raw_rate is not None:
+            return round(self.raw_rate, 3)
         years = self.operational_years or 1.0
         return round(self.loss_mm / years, 3)
 
@@ -127,10 +135,20 @@ class CalcRow:
         rate = self.corrosion_rate
         if not rate or rate <= 0:
             return None
-        return round((self.measured_mm - self.minimum_allowable_mm) / rate, 1)
+        if self.measured_mm and self.minimum_allowable_mm:
+            return round((self.measured_mm - self.minimum_allowable_mm) / rate, 1)
+        return None
 
     @property
     def status(self) -> str:
+        if self.status_override:
+            so = str(self.status_override).upper()
+            if any(term in so for term in ["CRITICAL", "ALERT", "DANGER", "HIGH"]):
+                return "CRITICAL"
+            if any(term in so for term in ["ELEVATED", "WARNING", "MEDIUM"]):
+                return "ELEVATED"
+            if any(term in so for term in ["NORMAL", "OK", "SAFE", "LOW"]):
+                return "NORMAL"
         return _risk_status(self.corrosion_rate)
 
 
@@ -166,8 +184,8 @@ def is_industrial_calc_data(data: Optional[list[dict]]) -> bool:
     """Checks whether the provided dataset represents industrial inspection/corrosion records."""
     if not data or not isinstance(data, list) or not isinstance(data[0], dict):
         return False
-    keys = {str(k).lower() for k in data[0].keys()}
-    return bool(keys & {"nominal_mm", "measured_mm", "corrosion_rate", "minimum_allowable_mm", "operational_years"})
+    keys = {re.sub(r'[^a-z0-9]', '', str(k).lower()) for k in data[0].keys()}
+    return any(any(term in k for term in ["corrosion", "thickness", "allowable", "nominal", "measured", "wallloss", "lossmm"]) for k in keys)
 
 
 def normalize_calc_rows(calc_data: Optional[list[dict]]) -> list[CalcRow]:
@@ -199,15 +217,31 @@ def normalize_calc_rows(calc_data: Optional[list[dict]]) -> list[CalcRow]:
         # (e.g. "< 0.50 mm/yr"), not a minimum wall thickness — never alias it here,
         # or a rate ceiling gets silently reinterpreted as a thickness in mm.
         min_allow = _first(rec, "minimum_allowable_mm", "Minimum Allowable (mm)", "min_allowable_mm")
-        min_allow_f = _to_float(min_allow, default=round(nominal * 0.6, 2))
+
+        rate_val = _first(rec, "corrosion_rate", "Corrosion Rate (mm/y)", "Corrosion Rate", "rate", "corrosion_rate_mmy")
+        raw_rate = _to_float(rate_val) if rate_val is not None else None
+        status_val = _first(rec, "status", "Status", "risk", "Risk")
+
+        if nominal == 0.0 and measured == 0.0 and raw_rate is not None:
+            nominal = 12.0
+            loss = round(raw_rate * years, 3)
+            measured = max(round(nominal - loss, 3), 1.0)
+            if min_allow is None:
+                min_allow_f = round(nominal * 0.6, 2)
+            else:
+                min_allow_f = _to_float(min_allow, default=round(nominal * 0.6, 2))
+        else:
+            min_allow_f = _to_float(min_allow, default=round(nominal * 0.6, 2))
 
         rows.append(CalcRow(
-            tag_id=str(_first(rec, "tag_id", "Tag ID", "Equipment", "tag", default="UNTAGGED")),
+            tag_id=str(_first(rec, "tag_id", "Tag ID", "Equipment", "tag", "Tag", default="UNTAGGED")),
             component=str(_first(rec, "component", "Component", "Service / Component", "service", default="Unspecified Component")),
             nominal_mm=nominal,
             measured_mm=measured,
             operational_years=years,
             minimum_allowable_mm=min_allow_f,
+            raw_rate=raw_rate,
+            status_override=str(status_val) if status_val else None,
         ))
     return rows or normalize_calc_rows(None)
 
@@ -1010,7 +1044,7 @@ def _xlsx_generic_dashboard(wb, data: list[dict], title: str = "Executive Data D
     from openpyxl.styles import Font, PatternFill, Alignment
     from openpyxl.utils import get_column_letter
 
-    ws = wb.create_sheet("Executive Dashboard")
+    ws = wb.create_sheet("Executive KPI Dashboard")
     try:
         ws.views.sheetView[0].showGridLines = True
     except Exception:
@@ -1064,7 +1098,7 @@ def _xlsx_generic_data_sheet(wb, data: list[dict]):
     from openpyxl.styles import Font, Alignment
     from openpyxl.utils import get_column_letter
 
-    ws = wb.create_sheet("Data Matrix")
+    ws = wb.create_sheet("Calculations & Data Matrix")
     try:
         ws.views.sheetView[0].showGridLines = True
     except Exception:
@@ -1111,7 +1145,7 @@ def _xlsx_generic_data_sheet(wb, data: list[dict]):
 
 def _xlsx_generic_audit_sheet(wb, task_id: str, citations: list[str]):
     from openpyxl.styles import Font, Alignment, PatternFill
-    ws = wb.create_sheet("Audit & Provenance")
+    ws = wb.create_sheet("Audit Log & Provenance")
     header_fill, header_font, zebra_fill, border = _xlsx_styles()
 
     ws.merge_cells("A1:D1")

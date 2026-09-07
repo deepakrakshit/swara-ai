@@ -2109,7 +2109,9 @@ def node_finalize(state: AgentState) -> AgentState:
         _hitl_decisions[task_id] = True
 
         calc_rows = state.get("calc_data") or []
-        target_fmts = state.get("target_formats")
+        target_fmts = list(state.get("target_formats") or ["docx", "xlsx", "pdf", "pptx"])
+        if "docx" in target_fmts and "xlsx" not in target_fmts:
+            target_fmts.append("xlsx")
 
         try:
             from src.exporter import render_all_deliverables
